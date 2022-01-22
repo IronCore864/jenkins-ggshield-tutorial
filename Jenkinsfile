@@ -7,7 +7,9 @@ podTemplate(containers: [
             git url:'https://github.com/IronCore864/k8s-vagrant-kubeadm.git', branch: 'main'
             container('ggshield') {
                 stage('Scan a project') {
-                    sh 'ggshield scan path --recursive -y .'
+                    withCredentials([string(credentialsId: 'gitguardian-api-key', variable: 'GITGUARDIAN_API_KEY')]) {
+                        sh 'ggshield scan path --recursive -y .'
+                    }
                 }
             }
         }
